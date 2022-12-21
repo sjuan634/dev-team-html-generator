@@ -1,112 +1,144 @@
-const {Employee, Manager, Engineer, Intern} = require('../lib/classes.js')
-// const Employee = require('./Employee');
-// const Manager = require('./Manager');
-// const Engineer = require('./Engineer');
-// const Intern = require('./Intern');
+const Employee = require('../lib/employee');
+const Manager = require('../lib/manager');
+const Engineer = require('../lib/engineer');
+const Intern = require('../lib/intern');
+
 
 // Test the Employee class
 describe('Employee', () => {
-  test('Can instantiate Employee instance', () => {
-    const e = new Employee();
-    expect(typeof(e)).toBe('object');
+  test('Should instantiate Employee object', () => {
+    const employee = new Employee();
+
+    expect(typeof(employee)).toBe('object');
   });
 
-  test('Can set name via constructor arguments', () => {
-    const name = 'Alice';
-    const e = new Employee(name);
-    expect(e.name).toBe(name);
+  test('Should set name, id, and email properties', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const employee = new Employee(name, id, email);
+
+    expect(employee.name).toBe(name);
+    expect(employee.id).toBe(id);
+    expect(employee.email).toBe(email);
   });
 
-  test('Can set id via constructor argument', () => {
-    const testValue = 100;
-    const e = new Employee('Foo', testValue);
-    expect(e.id).toBe(testValue);
-  });
+  test('getName() should return name. getId() should return id. getEmail should return email. getRole should return "Emplyee"', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const employee = new Employee(name, id, email);
 
-  test('Can set email via constructor argument', () => {
-    const testValue = 'test@test.com';
-    const e = new Employee('Foo', 1, testValue);
-    expect(e.email).toBe(testValue);
-  });
-
-  test('Can get name via getName()', () => {
-    const testValue = 'Alice';
-    const e = new Employee(testValue);
-    expect(e.getName()).toBe(testValue);
-  });
-
-  test('Can get id via getId()', () => {
-    const testValue = 100;
-    const e = new Employee('Foo', testValue);
-    expect(e.getId()).toBe(testValue);
-  });
-
-  test('Can get email via getEmail()', () => {
-    const testValue = 'test@test.com';
-    const e = new Employee('Foo', 1, testValue);
-    expect(e.getEmail()).toBe(testValue);
-  });
-
-  test('getRole() should return "Employee"', () => {
-    const testValue = 'Employee';
-    const e = new Employee('Alice', 1, 'test@test.com');
-    expect(e.getRole()).toBe(testValue);
+    expect(employee.getName()).toBe(name);
+    expect(employee.getId()).toBe(id);
+    expect(employee.getEmail()).toBe(email);
+    expect(employee.getRole()).toBe('Employee');
   });
 });
 
 // Test the Manager class
 describe('Manager', () => {
-  test('Can set office number via constructor argument', () => {
-    const testValue = 100;
-    const e = new Manager('Foo', 1, 'test@test.com', testValue);
-    expect(e.officeNumber).toBe(testValue);
+  test('Should instantiate Manager object', () => {
+    const manager = new Manager();
+
+    expect(typeof(manager)).toBe('object');
   });
 
-  test('getRole() should return "Manager"', () => {
-    const testValue = 'Manager';
-    const e = new Manager('Alice', 1, 'test@test.com', 100);
-    expect(e.getRole()).toBe(testValue);
+  test('Should set name, id, email, and officeNumber properties', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const officeNumber = '1';
+    const manager = new Manager(name, id, email, officeNumber);
+
+    expect(manager.name).toBe(name);
+    expect(manager.id).toBe(id);
+    expect(manager.email).toBe(email);
+    expect(manager.officeNumber).toBe(officeNumber);
+  });
+
+  test('getName() should return name. getId() should return id. getEmail should return email. getRole should return "Manager"', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const officeNumber = '1';
+    const manager = new Manager(name, id, email, officeNumber);
+
+    expect(manager.getName()).toBe(name);
+    expect(manager.getId()).toBe(id);
+    expect(manager.getEmail()).toBe(email);
+    expect(manager.getRole()).toBe('Manager');
   });
 });
 
 // Test the Engineer class
 describe('Engineer', () => {
-  test('Can set GitHUb account via constructor argument', () => {
-    const testValue = 'GitHubUser';
-    const e = new Engineer('Foo', 1, 'test@test.com', testValue);
-    expect(e.github).toBe(testValue);
+  test('Should instantiate Engineer object', () => {
+    const engineer = new Engineer();
+
+    expect(typeof(engineer)).toBe('object');
   });
 
-  test('getGitHub() should return value of github', () => {
-    const testValue = 'GitHubUser';
-    const e = new Engineer('Foo', 1, 'test@test.com', testValue);
-    expect(e.getGithub()).toBe(testValue);
+  test('Should set name, id, email, and github properties', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const github = 'sjuan634';
+    const engineer = new Engineer(name, id, email, github);
+
+    expect(engineer.name).toBe(name);
+    expect(engineer.id).toBe(id);
+    expect(engineer.email).toBe(email);
+    expect(engineer.github).toBe(github);
   });
 
-  test('getRole() should return "Engineer"', () => {
-    const testValue = 'Engineer';
-    const e = new Engineer('Foo', 1, 'test@test.com', 'GitHubUser');
-    expect(e.getRole()).toBe(testValue);
+  test('getName() should return name. getId() should return id. getEmail should return email. getGithub() should return github. getRole should return "Engineer."', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const github = 'sjuan634';
+    const engineer = new Engineer(name, id, email, github);
+
+    expect(engineer.getName()).toBe(name);
+    expect(engineer.getId()).toBe(id);
+    expect(engineer.getEmail()).toBe(email);
+    expect(engineer.getGithub()).toBe(github);
+    expect(engineer.getRole()).toBe('Engineer');
   });
 });
 
 // Test the Intern class
 describe('Intern', () => {
-  test('Can set school via constructor argument', () => {
-    const testValue = 'UC Berkeley';
-    const e = new Intern('Foo', 1, 'test@test.com', testValue);
-    expect(e.school).toBe(testValue);
+  test('Should instantiate Intern object', () => {
+    const intern = new Intern();
+
+    expect(typeof(intern)).toBe('object');
   });
 
-  test('getSchool() should return value of school', () => {
-    const testValue = 'UC Berkeley';
-    const e = new Intern('Foo', 1, 'test@test.com', testValue);
-    expect(e.getSchool()).toBe(testValue);
+  test('Should set name, id, email, and school properties', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const school = 'edX';
+    const intern = new Intern(name, id, email, school);
+
+    expect(intern.name).toBe(name);
+    expect(intern.id).toBe(id);
+    expect(intern.email).toBe(email);
+    expect(intern.school).toBe(school);
   });
 
-  test('getRole() should return "Intern"', () => {
-    const testValue = 'Intern';
-    const e = new Intern('Foo', 1, 'test@test.com', 'UC Berkeley');
-    expect(e.getRole()).toBe(testValue);
+  test('getName() should return name. getId() should return id. getEmail should return email. getSchool() should return school. getRole should return "Intern"', () => {
+    const name = 'Juan';
+    const id = '123';
+    const email = 'sjuan634@yahoo.com';
+    const school = 'edX';
+    const intern = new Intern(name, id, email, school);
+
+    expect(intern.getName()).toBe(name);
+    expect(intern.getId()).toBe(id);
+    expect(intern.getEmail()).toBe(email);
+    expect(intern.getSchool()).toBe(school);
+    expect(intern.getRole()).toBe('Intern');
   });
 });

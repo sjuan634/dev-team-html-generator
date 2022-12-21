@@ -3,103 +3,94 @@ const fs = require('fs');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
+const Employee = require('./lib/employee');
 
+const questions = [
+  {
+    type: 'input',
+    name: 'name',
+    message: 'Enter the employee\'s name:',
+  },
+  {
+    type: 'input',
+    name: 'id',
+    message: 'Enter the employee\'s ID:',
+  },
+  {
+    type: 'input',
+    name: 'email',
+    message: 'Enter the employee\'s email:',
+  },
+]
 // Array to store employee objects
 const employees = [];
 
-// Function to prompt the user for information about a new employee
-const promptUser = () => {
+function getManager() {
   return inquirer.prompt([
+    ...questions,
     {
       type: 'input',
-      name: 'name',
-      message: 'Enter the employee\'s name:'
+      name: 'officeNumber',
+      message: 'Enter the manager\'s office number:',
     },
-    {
-      type: 'input',
-      name: 'id',
-      message: 'Enter the employee\'s ID:'
-    },
-    {
-      type: 'input',
-      name: 'email',
-      message: 'Enter the employee\'s email:'
-    },
-    {
-      type: 'list',
-      name: 'role',
-      message: 'Select the employee\'s role:',
-      choices: ['Manager', 'Engineer', 'Intern']
-    }
-  ]).then(answers => {
-    // Based on the selected role, prompt the user for additional information
-    switch (answers.role) {
-      case 'Manager':
-        return inquirer.prompt([
-          {
-            type: 'input',
-            name: 'officeNumber',
-            message: 'Enter the manager\'s office number:'
-          }
-        ]).then(managerAnswers => {
-          // Create a new Manager object and add it to the employees array
-          const manager = new Manager(answers.name, answers.id, answers.email, managerAnswers.officeNumber);
-          employees.push(manager);
+  ])
+  .then((answers) => {
+  const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+  employees.push(manager);
+  console.log(employees)
+  return getTeam()
+})
+}
 
-          // Ask the user if they want to add another employee
-          return promptAddAnother();
-        });
-      case 'Engineer':
-        return inquirer.prompt([
-          {
-            type: 'input',
-            name: 'github',
-            message: 'Enter the engineer\'s GitHub username:'
-          }
-        ]).then(engineerAnswers => {
-          // Create a new Engineer object and add it to the employees array
-          const engineer = new Engineer(answers.name, answers.id, answers.email, engineerAnswers.github);
-          employees.push(engineer);
-
-          // Ask the user if they want to add another employee
-          return promptAddAnother();
-        });
-      case 'Intern':
-        return inquirer.prompt([
-          {
-            type: 'input',
-            name: 'school',
-            message: 'Enter the intern\'s school:'
-          }
-        ]).then(internAnswers => {
-          // Create a new Intern object and add it to the employees array
-          const intern = new Intern(answers.name, answers.id, answers.email, internAnswers.school);
-          employees.push(intern);
-
-          // Ask the user if they want to add another employee
-          return promptAddAnother();
-        });
-    }
-  });
-};
-
-const promptAddAnother = () => {
+function getTeam() {
   return inquirer.prompt([
     {
       type: 'confirm',
       name: 'addAnother',
-      message: 'Would you like to add another employee?'
-    }
-  ]).then(answers => {
-    if (answers.addAnother) {
-      // If the user wants to add another employee, prompt them for information again
-      return promptUser();
+      message: 'Would you like to add another employee?',
+    },
+  ])
+  .then((answer) => {
+    if (answer.addAnother) {
+      return inquirer.prompt([
+        {
+          type: 'list',
+          name: 'role',
+          message: 'Select the employee\'s role:',
+          choices: ['Engineer', 'Intern'],
+        },
+        ...questions,
+        {
+          type: 'input',
+          name: 'github',
+          message: 'Enter the engineer\'s GitHub username:',
+          when: (answers) => answers.role === 'Engineer',
+        },
+        {
+          type: 'input',
+          name: 'school',
+          message: 'Enter the intern\'s school:',
+          when: (answers) => answers.role === 'Intern',
+        }
+      ])
+      .then((answers) => {
+        switch (answers.role){
+          case 'Engineer':
+            const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+            employees.push(engineer);
+          break;
+          case 'Intern':
+            const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+            employees.push(intern);
+          break;
+        }
+        return getTeam();
+      })
     } else {
-      // If the user is finished adding employees, generate the HTML output
       return generateHTML();
     }
-  });
-};
+  })
+}
 
 // Function to generate the HTML output
 const generateHTML = () => {
@@ -132,10 +123,9 @@ const generateHTML = () => {
   `;
 
   // Write the HTML to a file
-  fs.writeFile('./dist/team.html', html);
+  fs.writeFile('./dist/team.html', html, function (err) {
+    err ? console.error(err) : console.log('Saved!');
+});
 };
 
-// Start the application by prompting the user for information about the manager
-promptUser().then(() => {
-  console.log('HTML file generated successfully!');
-});
+getManager();
