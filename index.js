@@ -5,6 +5,7 @@ const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const Employee = require('./lib/employee');
 
+// questions for all employees
 const questions = [
   {
     type: 'input',
@@ -25,6 +26,7 @@ const questions = [
 // Array to store employee objects
 const employees = [];
 
+// function to get manager info from user
 function getManager() {
   return inquirer.prompt([
     ...questions,
@@ -37,11 +39,11 @@ function getManager() {
   .then((answers) => {
   const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
   employees.push(manager);
-  console.log(employees)
   return getTeam()
 })
 }
 
+// function to get team info from user
 function getTeam() {
   return inquirer.prompt([
     {
@@ -99,10 +101,10 @@ const generateHTML = () => {
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Team Roster</title>
+      <title>My Team</title>
     </head>
     <body>
-      <h1>Team Roster</h1>
+      <h1>My Team</h1>
       <ul>
         ${employees.map(employee => {
           return `
