@@ -42,4 +42,4 @@ First clone the repo to your local machine. You will need to have [node.js](http
 
 
 Once everything is installed, you can run ```node index.js``` at the root of the repo. You will be prompted with some questions, answer all of them. Then your input will be used to create a the HTML file in the ```dist``` directory.
-[Demo Video](https://drive.google.com/file/d/1CFbXusZfGdnSoL9sOp_CoL_u92_Uqwgw/view)
+[Demo Video](https://drive.google.com/file/d/1txNB1gWUWAcT6vdsBCezfYxa7VSBXklf/view)
